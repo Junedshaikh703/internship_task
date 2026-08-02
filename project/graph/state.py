@@ -35,3 +35,5 @@ class GraphState(TypedDict):
 
     # Verification Result
     verification_passed: bool
+
+    retry_count: int
