@@ -6,13 +6,15 @@ from pathlib import Path
 
 PROJECT_ROOT = Path(__file__).resolve().parent
 
-DATA_DIR = PROJECT_ROOT / "data"
+PROJECT_DIR = PROJECT_ROOT / "project"
+
+DATA_DIR = PROJECT_DIR / "data"
 
 KNOWLEDGE_BASE_DIR = DATA_DIR / "knowledge_base"
 
 RESOLVED_CASES_FILE = DATA_DIR / "resolved_cases.json"
 
-VECTOR_STORE_DIR = PROJECT_ROOT / "vector_store"
+VECTOR_STORE_DIR = PROJECT_DIR / "vector_store"
 
 # ======================================================
 # Models
@@ -29,5 +31,5 @@ LLM_MODEL = "HuggingFaceTB/SmolLM2-1.7B-Instruct"
 TOP_K = 3
 
 
-print(KNOWLEDGE_BASE_DIR)
-print(RESOLVED_CASES_FILE)
+# print(KNOWLEDGE_BASE_DIR)
+# print(RESOLVED_CASES_FILE)
