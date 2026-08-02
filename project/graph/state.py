@@ -12,6 +12,9 @@ class GraphState(TypedDict):
     # User Input
     query: str
 
+    # classification task
+    classification: str
+
     # Retrieved Context
     retrieved_documents: List[Document]
 

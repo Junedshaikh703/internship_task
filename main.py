@@ -1,14 +1,23 @@
 from project.graph.builder import graph
 
-state = {
-    "query": "How do I rotate API credentials?"
-}
+queries = [
+    "How do I rotate API credentials?",
+    "My export failed.",
+    "Write a refund request for my Netflix subscription.",
+    "The suggested solution did not work. What information should I collect before escalating?",
+]
 
-result = graph.invoke(state)
+for query in queries:
+    print("=" * 80)
+    print(f"Query: {query}\n")
 
-print(result["answer"])
-print(result["verification_passed"])
-print(result["confidence"])
-print(result["requires_human"])
-print(result["reason"])
-print(result["sources"])
+    result = graph.invoke({"query": query})
+
+    print(f"Classification       : {result['classification']}")
+    print(f"Answer              : {result['answer']}")
+    print(f"Verification Passed : {result['verification_passed']}")
+    print(f"Confidence          : {result['confidence']}")
+    print(f"Requires Human      : {result['requires_human']}")
+    print(f"Reason              : {result['reason']}")
+    print(f"Sources             : {result['sources']}")
+    print()
