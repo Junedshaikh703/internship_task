@@ -1,23 +1,27 @@
+from dotenv import load_dotenv
+
 from project.graph.builder import graph
 
-queries = [
-    "How do I rotate API credentials?",
-    "My export failed.",
-    "Write a refund request for my Netflix subscription.",
-    "The suggested solution did not work. What information should I collect before escalating?",
-]
+load_dotenv()
 
-for query in queries:
-    print("=" * 80)
-    print(f"Query: {query}\n")
+# import os
 
-    result = graph.invoke({"query": query})
+# print(os.getenv("LANGSMITH_TRACING"))
+# print(os.getenv("LANGSMITH_API_KEY"))
+# print(os.getenv("LANGSMITH_PROJECT"))
 
-    print(f"Classification       : {result['classification']}")
-    print(f"Answer              : {result['answer']}")
-    print(f"Verification Passed : {result['verification_passed']}")
-    print(f"Confidence          : {result['confidence']}")
-    print(f"Requires Human      : {result['requires_human']}")
-    print(f"Reason              : {result['reason']}")
-    print(f"Sources             : {result['sources']}")
-    print()
+
+query = "How do I rotate API credentials?"
+
+result = graph.invoke({"query": query})
+
+print("=" * 80)
+print(f"Query: {query}\n")
+
+print(f"Classification       : {result['classification']}")
+print(f"Answer              : {result['answer']}")
+print(f"Verification Passed : {result['verification_passed']}")
+print(f"Confidence          : {result['confidence']}")
+print(f"Requires Human      : {result['requires_human']}")
+print(f"Reason              : {result['reason']}")
+print(f"Sources             : {result['sources']}")
