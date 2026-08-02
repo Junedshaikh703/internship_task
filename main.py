@@ -1,28 +1,14 @@
-from project.nodes.retrieval import retrieval_node
-from project.nodes.generation import generation_node
-from project.nodes.verification import verification_node
+from project.graph.builder import graph
 
 state = {
     "query": "How do I rotate API credentials?"
 }
 
-# Retrieval
-state = retrieval_node(state)
+result = graph.invoke(state)
 
-# Generation
-state = generation_node(state)
-
-print("=" * 80)
-print("Generated Answer:\n")
-print(state["answer"])
-
-# Verification
-state = verification_node(state)
-
-print("\n" + "=" * 80)
-print("Verification Result:\n")
-
-print(f"Verification Passed : {state['verification_passed']}")
-print(f"Confidence          : {state['confidence']}")
-print(f"Requires Human      : {state['requires_human']}")
-print(f"Reason              : {state['reason']}")
+print(result["answer"])
+print(result["verification_passed"])
+print(result["confidence"])
+print(result["requires_human"])
+print(result["reason"])
+print(result["sources"])
