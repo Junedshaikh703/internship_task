@@ -1,12 +1,12 @@
-from project.rag.retriever import retrieve_documents
+from project.nodes.retrieval import retrieval_node
 
-query = "How can I reset my API credentials?"
+state = {
+    "query": "How do I rotate API credentials?"
+}
 
-documents = retrieve_documents(query)
+new_state = retrieval_node(state)
 
-print(f"Retrieved {len(documents)} documents\n")
+print(len(new_state["retrieved_documents"]))
 
-for i, doc in enumerate(documents, start=1):
-    print(f"Document {i}")
+for doc in new_state["retrieved_documents"]:
     print(doc.metadata)
-    print("-" * 60)
