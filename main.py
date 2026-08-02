@@ -1,8 +1,12 @@
-from project.rag.loader import load_documents
+from project.rag.retriever import retrieve_documents
 
-docs = load_documents()
+query = "How can I reset my API credentials?"
 
-print(f"Loaded {len(docs)} documents\n")
+documents = retrieve_documents(query)
 
-for doc in docs:
+print(f"Retrieved {len(documents)} documents\n")
+
+for i, doc in enumerate(documents, start=1):
+    print(f"Document {i}")
     print(doc.metadata)
+    print("-" * 60)
