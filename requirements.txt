@@ -1,0 +1,10 @@
+langchain
+langgraph
+langchain-huggingface
+langchain-community
+transformers
+sentence-transformers
+torch
+faiss-cpu
+pydantic
+python-dotenv
