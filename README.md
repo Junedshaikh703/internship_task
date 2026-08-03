@@ -24,7 +24,7 @@ The workflow ensures responses remain grounded in the supplied OrbitDesk documen
 ## Architecture
 
 <p align="center">
-  <img src="docs/architecture.png" width="900">
+  <img src="docs/image.png" width="900">
 </p>
 
 The workflow uses conditional routing to determine the appropriate execution path for every user query. Depending on the query type and verification outcome, the graph dynamically selects clarification, retrieval, revision, or safe failure nodes.
