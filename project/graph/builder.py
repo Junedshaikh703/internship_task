@@ -2,7 +2,6 @@ from langgraph.graph import START, END, StateGraph
 
 from project.graph.state import GraphState
 
-
 from project.nodes.triage import triage_node
 from project.nodes.clarification import clarification_node
 from project.nodes.out_of_scope import out_of_scope_node
@@ -16,21 +15,24 @@ from project.nodes.safe_failure import safe_failure_node
 def route_query(state: GraphState):
     return state["classification"]
 
+
 def route_after_verification(state: GraphState):
 
     if state["verification_passed"]:
         return "end"
 
-    if state["retry_count"] == 0:
+    if state["retry_count"] < 1:
         return "revision"
 
     return "safe_failure"
 
 
-
 graph_builder = StateGraph(GraphState)
 
+# ------------------------------------------------------------------
 # Nodes
+# ------------------------------------------------------------------
+
 graph_builder.add_node("triage", triage_node)
 graph_builder.add_node("clarification", clarification_node)
 graph_builder.add_node("out_of_scope", out_of_scope_node)
@@ -40,26 +42,29 @@ graph_builder.add_node("verification", verification_node)
 graph_builder.add_node("revision", revision_node)
 graph_builder.add_node("safe_failure", safe_failure_node)
 
+# ------------------------------------------------------------------
+# Workflow
+# ------------------------------------------------------------------
 
-# Flow
 graph_builder.add_edge(START, "triage")
+
 graph_builder.add_conditional_edges(
     "triage",
     route_query,
     {
         "answerable": "retrieval",
         "requires_clarification": "clarification",
-        "out_of_scope": "out_of_scope",
-
-        # Temporary
         "requires_escalation": "retrieval",
+        "out_of_scope": "out_of_scope",
     },
 )
 
 graph_builder.add_edge("clarification", END)
 graph_builder.add_edge("out_of_scope", END)
+
 graph_builder.add_edge("retrieval", "generation")
 graph_builder.add_edge("generation", "verification")
+
 graph_builder.add_conditional_edges(
     "verification",
     route_after_verification,
@@ -69,6 +74,11 @@ graph_builder.add_conditional_edges(
         "end": END,
     },
 )
+
+# Retry once by regenerating the answer
+graph_builder.add_edge("revision", "generation")
+
+# Return a safe response after retry limit is reached
 graph_builder.add_edge("safe_failure", END)
 
 graph = graph_builder.compile()
